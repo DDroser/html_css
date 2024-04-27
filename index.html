@@ -8,7 +8,38 @@
 </head>
 
 <body>
-    test
+    <h2 class="letter"></h2>
+    <script>
+        //使用DOMContentLoaded,确保HTML在完全解析后立即执行代码 而不必等待所有外部资源加载完毕
+        document.addEventListener('DOMContentLoaded', () => {
+            const letterBox = document.querySelector(".letter");
+            if (!letterBox) {
+                console.error('类名为letter的元素不存在');
+                return;
+            }
+    
+            let lastTime = Date.now();
+            const interval = 1000; //间隔时间
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            let index = 0;
+    
+            const updateLetter = () => {
+                let nowTime = Date.now();
+                let elapsed = nowTime - lastTime;
+    
+                if (elapsed > interval) {
+                    lastTime = nowTime - (elapsed % interval); //校正时间
+    
+                    letterBox.textContent = letters[index];
+                    index = (index + 1) % letters.length;
+                }
+    
+                requestAnimationFrame(updateLetter);
+            }
+    
+            requestAnimationFrame(updateLetter);
+        })
+    </script>
 </body>
 
 </html>
